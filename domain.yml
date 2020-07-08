@@ -1,0 +1,90 @@
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- location
+- inform_cusine
+- inform_price
+- deny
+- affirm
+- inform_mail
+- restaurant_search
+- goodbye
+- inform_cuisine
+- sent_mail
+entities:
+- cuisine
+- email_id
+- location
+- price
+- response
+slots:
+  cuisine:
+    type: text
+  email_id:
+    type: text
+  location:
+    type: text
+  price:
+    type: categorical
+    values:
+    - low
+    - med
+    - high
+    - __other__
+  requested_slot:
+    type: unfeaturized
+  response:
+    type: text
+responses:
+  utter_ask_cuisine:
+  - buttons:
+    - payload: Chinese
+      title: Chinese
+    - payload: Italian
+      title: Italian
+    - payload: American
+      title: American
+    - payload: Mexican
+      title: Mexican
+    - payload: South Indian
+      title: South Indian
+    - payload: North Indian
+      title: North Indian
+    text: what kind of cuisine would you like?
+  utter_ask_email:
+  - text: Please provide me with the email id
+  utter_ask_location:
+  - text: In which city are you looking for restaurants?
+  utter_ask_price:
+  - buttons:
+    - payload: low
+      title: Lesser than Rs. 300
+    - payload: mid
+      title: Rs. 300 to 700
+    - payload: high
+      title: More than 700
+    text: What price range do you prefer?
+  utter_forward:
+  - buttons:
+    - payload: Yes
+      title: Yes
+    - payload: No
+      title: No
+    text: Would you like me to forward these search results to the mail id?
+  utter_goodbye:
+  - text: Bye Bye. Take care
+  utter_greet:
+  - text: Hey There! How may I help you?
+actions:
+- action_sent_mail
+- utter_ask_cuisine
+- utter_ask_email
+- utter_ask_location
+- utter_ask_price
+- utter_forward
+- utter_goodbye
+- utter_greet
+forms:
+- restaurant_search_form

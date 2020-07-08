@@ -62,7 +62,7 @@ class RestaurantSearchForm(FormAction):
             lon=d1["location_suggestions"][0]["longitude"]
             city_ID = d1['location_suggestions'][0]['city_id']
             cuisines_dict= {'Chinese':25, 'American':1, 'Italian':55, 'Mexican':73, 'North Indain':50, 'South Indian':85}
-            results = zomato.restaurant_search_mod("", lat, lon, str(cuisines_dict.get(cuisine)), city_ID,5)
+            results = zomato.restaurant_search_mod("", lat, lon, str(cuisines_dict.get(cuisine)), city_ID,10)
             d = json.loads(results)
             response=""
             if d :

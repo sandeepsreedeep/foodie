@@ -62,25 +62,48 @@ class RestaurantSearchForm(FormAction):
             lon=d1["location_suggestions"][0]["longitude"]
             city_ID = d1['location_suggestions'][0]['city_id']
             cuisines_dict= {'Chinese':25, 'American':1, 'Italian':55, 'Mexican':73, 'North Indain':50, 'South Indian':85}
-            results = zomato.restaurant_search_mod("", lat, lon, str(cuisines_dict.get(cuisine)), city_ID,10)
-            d = json.loads(results)
             response=""
-            if d :
-                if d['results_found'] == 0:
-                    response= "no results"
-                else:
-                        for restaurant in d['restaurants']:
-                            response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
-                        # else:
-                        #     response= "Sorry there were no search results!!"
-
+            ctr = 1
+            for each in range(21):
+                results = zomato.restaurant_search_mod("", lat, lon, str(cuisines_dict.get(cuisine)), city_ID,10,each*20)
+                d = json.loads(results)
+                if d :
+                    if d['results_found'] == 0:
+                        response= "no results"
+                    else:
+                        if price == 'low':
+                            for restaurant in d['restaurants']:
+                                if restaurant['restaurant']['average_cost_for_two'] < 300:
+                                    if ctr <= 10:
+                                        response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
+                                        ctr+=1
+                                    if ctr >10:
+                                        break
+                        if price == 'mid':
+                            for restaurant in d['restaurants']:
+                                if (restaurant['restaurant']['average_cost_for_two'] > 300) and (restaurant['restaurant']['average_cost_for_two']) < 700:
+                                    if ctr <= 10:
+                                        response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
+                                        ctr+=1
+                                    if ctr >10:
+                                        break
+                        if price == 'high':
+                            for restaurant in d['restaurants']:
+                                if restaurant['restaurant']['average_cost_for_two'] > 700:
+                                    if ctr <= 10:
+                                        response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
+                                        ctr+=1
+                                    if ctr >10:
+                                        break
+                            # else:
+                            #     response= "Sorry there were no search results!!"
+            if response != "":
                 dispatcher.utter_message(response)
-                global result_g
-                result_g = response
-                return []
             else:
-                dispatcher.utter_message('Sorry! There we no results for the search')
-                return []
+                dispatcher.utter_message("Sorry there were no search results")
+            global result_g
+            result_g = response
+            return []
         else:
             dispatcher.utter_message("Sorry!! we do not operate in that area yet")
             return []

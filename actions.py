@@ -63,7 +63,10 @@ class RestaurantSearchForm(FormAction):
             city_ID = d1['location_suggestions'][0]['city_id']
             cuisines_dict= {'Chinese':25, 'American':1, 'Italian':55, 'Mexican':73, 'North Indain':50, 'South Indian':85}
             response=""
+            response_p=""
             ctr = 1
+            iter = True
+            st = 0
             for each in range(21):
                 results = zomato.restaurant_search_mod("", lat, lon, str(cuisines_dict.get(cuisine)), city_ID,10,each*20)
                 d = json.loads(results)
@@ -77,6 +80,8 @@ class RestaurantSearchForm(FormAction):
                                     if ctr <= 10:
                                         response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                         ctr+=1
+                                    if ctr <= 5:
+                                        response_p = response_p+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                     if ctr >10:
                                         break
                         if price == 'mid':
@@ -85,6 +90,8 @@ class RestaurantSearchForm(FormAction):
                                     if ctr <= 10:
                                         response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                         ctr+=1
+                                    if ctr <= 5:
+                                        response_p = response_p+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                     if ctr >10:
                                         break
                         if price == 'high':
@@ -93,12 +100,14 @@ class RestaurantSearchForm(FormAction):
                                     if ctr <= 10:
                                         response=response+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                         ctr+=1
+                                    if ctr <= 5:
+                                        response_p = response_p+ "\nFound "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+"average_cost_for_two : " +str(restaurant['restaurant']['average_cost_for_two'])+"\n"+"Zomato User Rating : " +str(restaurant['restaurant']['user_rating']['aggregate_rating'])
                                     if ctr >10:
                                         break
                             # else:
                             #     response= "Sorry there were no search results!!"
             if response != "":
-                dispatcher.utter_message(response)
+                dispatcher.utter_message(response_p)
             else:
                 dispatcher.utter_message("Sorry there were no search results")
             global result_g

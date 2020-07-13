@@ -192,3 +192,27 @@
 * deny{"response": "No"}
     - slot{"response": "No"}
     - utter_goodbye
+
+## interactive_story_1
+* restaurant_search{"cuisine": "north indian"}
+    - slot{"cuisine": "north indian"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"cuisine": "north indian"}
+    - slot{"cuisine": "north indian"}
+    - slot{"requested_slot": "location"}
+* form: location{"location": "mumbai"}
+    - slot{"location": "mumbai"}
+    - form: restaurant_search_form
+    - slot{"location": "mumbai"}
+    - slot{"requested_slot": "price"}
+* form: inform_price{"price": "high"}
+    - slot{"price": "high"}
+    - form: restaurant_search_form
+    - slot{"price": "high"}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - utter_forward
+* deny{"response": "No"}
+    - slot{"response": "No"}
+    - utter_goodbye

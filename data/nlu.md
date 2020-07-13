@@ -62,7 +62,7 @@
 - [850]{"entity": "price", "value": "high"}
 - [high](price)
 - [mid](price)
-- [low](price)
+- [high](price)
 
 ## intent:location
 - [Mumbai](location)
@@ -97,7 +97,6 @@
 - [Chinese](cuisine)
 - [Mexican](cuisine)
 - [Chinese]{"entity": "cuisine", "value": "chinese"}
-- [chinese](cuisine)
 - [chinese](cuisine)
 
 ## intent:inform_mail
@@ -149,6 +148,7 @@
 - find me a [cheap]{"entity": "price", "value": "low"} restaurant in [delhi](location)
 - find me a restaurant in [kochi](location)
 - find me a north [indian resta]{"entity": "cuisine", "value": "north indian"}urant in [kochi](location)
+- i am looking for a north indian restaurant[]{"entity": "cuisine", "value": "north indian"}
 
 ## synonym:American
 - american
